@@ -1,8 +1,10 @@
 import React from 'react';
 import { Text, View } from 'react-native';
+
 import { StatefulUIElement } from 'src/ui/types'
 import Logic, { State, Event } from './logic';
 import styles from './styles'
+import ShareOutput from '../share-output'
 
 interface Props {
 
@@ -16,8 +18,8 @@ export default class HomeScreen extends StatefulUIElement<Props, State, Event> {
         return (
           <View style={styles.container}>
             <Text style={styles.welcome}>Welcome to React Native!</Text>
-            <Text style={styles.instructions}>To bla, just bla the bla</Text>
+            <ShareOutput />
           </View>
         );
-      }    
+      }
 }
