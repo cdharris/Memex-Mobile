@@ -1,14 +1,17 @@
-import ShareMenuAPI from "react-native-share-menu";
+// import ShareMenuAPI from "react-native-share-menu";
+import { NativeModules } from "react-native";
 
-export interface Props {
-  shareAPI?: typeof ShareMenuAPI;
+export interface ShareMenu {
+  getSharedText(callback: (text: string) => void): void;
 }
 
-export class ShareMenu {
-  private shareAPI: typeof ShareMenuAPI;
+export interface Props {}
 
-  constructor({ shareAPI = ShareMenuAPI }: Props) {
-    this.shareAPI = shareAPI;
+export class ShareMenu {
+  private shareAPI: ShareMenu;
+
+  constructor(props: Props) {
+    this.shareAPI = NativeModules.ShareMenuModule;
   }
 
   getShareText = () =>
