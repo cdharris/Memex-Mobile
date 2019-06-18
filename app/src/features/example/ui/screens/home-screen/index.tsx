@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 
-import { WebView } from '../../components/web-view'
+import { MemexWebView } from '../../components/web-view'
 import { AddressBar } from '../../components/address-bar'
 import { StatefulUIElement } from 'src/ui/types'
 import Logic, { State, Event } from './logic';
@@ -23,7 +23,7 @@ export default class HomeScreen extends StatefulUIElement<Props, State, Event> {
                 onEnterPress={url => this.processEvent('setCurrentUrl', { url })}
                 value={this.state.addressBarText}
               />
-              <WebView
+              <MemexWebView
                 currentUrl={this.state.currentUrl}
                 updateAddressBar={url => this.processEvent('setAddressBarText', { text: url })}
               />
