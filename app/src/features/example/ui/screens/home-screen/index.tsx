@@ -5,7 +5,7 @@ import RNFS from "react-native-fs";
 import { MemexWebView } from "../../components/web-view";
 import { AddressBar } from "../../components/address-bar";
 import { StatefulUIElement } from "src/ui/types";
-// import { injectScript } from "src/features/content_script/script-injector";
+import { injectScripts } from "src/features/content_script/script-injector";
 import Logic, { State, Event } from "./logic";
 import styles from "./styles";
 
@@ -44,8 +44,16 @@ export default class HomeScreen extends StatefulUIElement<Props, State, Event> {
   }
 
   handleLoadEnd = async e => {
+    this.webView.injectJavaScript(injectScripts({
+      srcs: [
+        'https://unpkg.com/react-dom@16/umd/react-dom.development.js',
+        'https://unpkg.com/react@16/umd/react.development.js',
+      ]
+    }))
+
     const content = await this.readInputFile({});
-    this.webView.injectJavaScript(content);
+    console.log(content.length)
+    this.webView.injectJavaScript(content + '; true;');
   };
 
   render() {
@@ -60,7 +68,6 @@ export default class HomeScreen extends StatefulUIElement<Props, State, Event> {
         />
         <MemexWebView
           ref={el => (this.webView = el)}
-          // injectedJavaScript={injectScript({})}
           onLoadEnd={this.handleLoadEnd}
           currentUrl={this.state.currentUrl}
           updateAddressBar={url =>
