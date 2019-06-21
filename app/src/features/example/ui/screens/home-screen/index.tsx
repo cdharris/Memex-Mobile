@@ -11,6 +11,7 @@ import styles from "./styles";
 
 interface Props {}
 
+// TODO: Get all of this stuff out of this class
 export default class HomeScreen extends StatefulUIElement<Props, State, Event> {
   webView = null;
 
@@ -43,17 +44,27 @@ export default class HomeScreen extends StatefulUIElement<Props, State, Event> {
     return RNFS.readFile(contentScript.path);
   }
 
+  private surroundScript = (script: string): string => `
+    (function() {
+      try {
+        eval(${JSON.stringify(script)})
+      } catch (err) {
+        console.error(err)
+      }
+    })()
+  `
+
   handleLoadEnd = async e => {
-    this.webView.injectJavaScript(injectScripts({
-      srcs: [
-        'https://unpkg.com/react-dom@16/umd/react-dom.development.js',
-        'https://unpkg.com/react@16/umd/react.development.js',
-      ]
-    }))
+    // this.webView.injectJavaScript(injectScripts({
+    //   srcs: [
+    //     'https://unpkg.com/react-dom@16/umd/react-dom.development.js',
+    //     'https://unpkg.com/react@16/umd/react.development.js',
+    //   ]
+    // }))
 
     const content = await this.readInputFile({});
     console.log(content.length)
-    this.webView.injectJavaScript(content + '; true;');
+    this.webView.injectJavaScript(this.surroundScript(content));
   };
 
   render() {
