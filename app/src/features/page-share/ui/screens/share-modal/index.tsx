@@ -26,7 +26,7 @@ export default class ShareModalScreen extends StatefulUIElement<
         this.shareExt = new ShareExtService({})
     }
 
-    private initHandleMetaShow = (type: MetaType) => e =>
+    private initHandleMetaShow = (type: MetaType) => (e: any) =>
         this.processEvent('setMetaViewType', { type })
 
     private handleClose = () => {
@@ -41,7 +41,9 @@ export default class ShareModalScreen extends StatefulUIElement<
                 <ActionBar
                     cancelBtnText="Back"
                     onCancelPress={() =>
-                        this.processEvent('setMetaViewType', { type: null })
+                        this.processEvent('setMetaViewType', {
+                            type: 'collections',
+                        })
                     }
                 />
                 <MetaPicker type={this.state.metaViewShown} {...this.props} />
